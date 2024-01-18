@@ -12,14 +12,14 @@ msg['To'] = receiver_email
 msg['Subject'] = subject
 
 smtp_server = "smtp.gmail.com"
-smpt_port = 587
-smpt_username = "pazinojumubots@gmail.com"
-smpt_password = "scdr bvpo hxrf feyv"
+smtp_port = 587
+smtp_username = "pazinojumubots@gmail.com"
+smtp_password = "scdr bvpo hxrf feyv"
 
 def send_email(msg_to_user: str):
     msg.attach(MIMEText(msg_to_user, 'plain'))
     try:
-        with smtplib.SMTP(smtp_server, smpt_port) as server:
+        with smtplib.SMTP(smtp_server, smtp_port) as server:
             server.starttls()
             server.login(smtp_username, smtp_password)
             server.sendmail(sender_email, receiver_email, msg.as_string())

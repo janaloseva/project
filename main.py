@@ -19,7 +19,7 @@ def save_new_task(task_name: str, remainder_date: datetime):
     added_tasks[task_name] = remainder_date.strftime("%Y-%m-%d %H:%M:%S")
 
     with open(file_path, "w", newline="") as file:
-        writer = csv.writter(file)
+        writer = csv.writer(file)
         writer.writerow(["Task name", "Due to date"])
         for task, due_date in added_tasks.items():
             writer.writerow([task, due_date])
@@ -42,7 +42,7 @@ def get_all_tasks():
 
 def print_all_tasks():
     added_tasks = get_all_tasks()
-    sorted_tasks_asc = dict(sorted(added_tasks.items(), key=lambada x: x[1]))
+    sorted_tasks_asc = dict(sorted(added_tasks.items(), key=lambda x: x[1]))
 
     for task in sorted_tasks_asc:
         print(f"Task name: {task} | Due to date: {sorted_tasks_asc[task]}")
@@ -53,7 +53,7 @@ def check_if_should_remind():
 
         new_task_list = {}
         for task in added_tasks:
-            if datetime.strftime(added_tasks, "%Y-%m-%d %H:%M:%S") <= datetime.now():
+            if datetime.strptime(added_tasks[task], "%Y-%m-%d %H:%M:%S") <= datetime.now():
                 send_email(f"You have to complete this task right now! \n{task}")
                 print("Check your mailbox")
             else:
@@ -62,8 +62,8 @@ def check_if_should_remind():
         with open(file_path, "w", newline="") as file:
             writer = csv.writer(file)
             writer.writerow(["Task name", "Due to date"])
-            for task, due_date in added_tasks.items():
-                writer.writerow(task, due_date)
+            for task, due_date in new_task_list.items():
+                writer.writerow([task, due_date])
         sleep(60)
 
 def main():
